@@ -26,7 +26,6 @@ class User(AbstractUser):
     team_leader = models.OneToOneField(Team, on_delete=models.SET_NULL, null=True, default=None, related_name='leader')
     first_name = models.CharField(_("名"), max_length=10)
     last_name = models.CharField(_("姓"), max_length=5)
-    session_key = models.CharField(_("微信session_key"), max_length=32, null=True, default=None)
 
     REQUIRED_FIELDS = ["first_name", "last_name"]
 

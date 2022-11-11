@@ -1,5 +1,8 @@
 venv
 .idea
+.cloudbase
 **/migrations/*
 !**/migrations/__init__.py
 **/__pycache__
+docker-compose.yml
+Dockerfile.development

@@ -17,7 +17,7 @@ class EvaluationForm(models.Model):
     speed_rate = models.IntegerField(_("速度评分"), default=5)
     speed_desc = models.TextField(_("速度描述"), max_length=60, default=None, null=True)
     evaluation_desc = models.TextField(_("服务整体评价"), max_length=200, default="用户未做出具体评价")
-    pics = models.JSONField(_("评价图片"), default=list, null=True)
+    pics = models.ImageField(upload_to='eva_pic/%Y/%m/')
 
     class Meta:
         db_table = 'evaluation'

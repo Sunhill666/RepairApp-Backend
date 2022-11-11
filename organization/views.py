@@ -47,3 +47,8 @@ def change_pwd(request):
 @permission_classes([permissions.AllowAny])
 def get_csrf_token(request):
     return Response({'csrf_token': get_token(request)})
+
+@api_view(['GET'])
+@permission_classes([custom_permissions.IsAdminUser])
+def get_workbook(request):
+    pass

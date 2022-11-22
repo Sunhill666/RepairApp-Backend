@@ -18,6 +18,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
         exclude = ['id', 'user']
 
 
+class ExportUserProfileSerializer(UserProfileSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
+
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     last_login = serializers.DateTimeField(read_only=True)

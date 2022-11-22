@@ -1,6 +1,8 @@
 venv
+.vscode
 .idea
 .cloudbase
+media
 **/migrations/*
 !**/migrations/__init__.py
 **/__pycache__

@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView, TokenBlacklistView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from organization.views import get_csrf_token
 from utils.utils_func import get_header
@@ -18,4 +20,4 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

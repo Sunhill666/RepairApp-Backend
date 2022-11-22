@@ -1,10 +1,15 @@
+import datetime
+from io import BytesIO
+
 from django.middleware.csrf import get_token
 from rest_framework import filters, viewsets, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from django_pandas.io import read_frame
+from django.http import HttpResponse
 
 from organization import custom_permissions
-from organization.models import User, Team
+from organization.models import User, Team, UserProfile
 from organization.serializers import TeamSerializer, UserSerializer, AdminUserListSerializer
 
 
@@ -48,7 +53,30 @@ def change_pwd(request):
 def get_csrf_token(request):
     return Response({'csrf_token': get_token(request)})
 
+
 @api_view(['GET'])
 @permission_classes([custom_permissions.IsAdminUser])
 def get_workbook(request):
-    pass
+    qs = UserProfile.objects.all()
+    df = read_frame(qs=qs)
+    df.drop('id', axis=1, inplace=True)
+    for row_index,row in df.iterrows():
+        df.loc[row_index, 'user'] = User.objects.get(username=row['user']).get_full_name()  # type: ignore
+    df.rename(
+        columns={
+            'user': "姓名",
+            'service_num': "服务次数",
+            'total_avg': "总评平均评分",
+            'attitude_avg': "态度平均评分",
+            'proficiency_avg': "效率平均评分",
+            'speed_avg': "速度平均评分",
+        }, inplace=True
+    )
+    output = BytesIO()
+    df.to_excel(output, index=False)
+    filename = "export_data_" + datetime.datetime.now().strftime("%Y-%m-%d")
+    response = HttpResponse(output.getvalue(), headers={
+        'Content-Type': 'application/vnd.ms-excel',
+        'Content-Disposition': 'attachment; filename="{0}.xlsx"'.format(filename)
+    })
+    return response

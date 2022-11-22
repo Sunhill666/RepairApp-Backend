@@ -24,4 +24,4 @@ class NormalRepairFormDetailSerializer(RepairFormSerializer):
 class GeneralRepairFormListSerializer(RepairFormSerializer):
     class Meta:
         model = RepairForm
-        fields = ['name', 'role', 'type', 'start_time', 'accept_time', 'end_time', 'status', 'appointment']
+        fields = ['id', 'name', 'role', 'type', 'start_time', 'accept_time', 'end_time', 'status', 'appointment']

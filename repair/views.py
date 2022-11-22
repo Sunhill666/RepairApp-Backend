@@ -1,3 +1,4 @@
+import datetime
 from rest_framework import generics, status
 from rest_framework import permissions, filters
 from rest_framework.decorators import api_view, permission_classes
@@ -92,5 +93,6 @@ def appoint_repair(request):
 
     rp.appointment = user
     rp.status = RepairForm.Status.APT
+    rp.accept_time = datetime.datetime.now()
     rp.save()
     return Response({'detail': "委派成功"}, status=status.HTTP_200_OK)

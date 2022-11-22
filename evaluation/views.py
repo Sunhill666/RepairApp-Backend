@@ -1,3 +1,4 @@
+import datetime
 from rest_framework import generics, permissions, filters
 
 from evaluation.models import EvaluationForm
@@ -21,6 +22,7 @@ class EvaluationListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         rp = serializer.validated_data.get('repair_form')
         rp.status = RepairForm.Status.FID
+        rp.end_time = datetime.datetime.now()
         rp.save()
         serializer.save()
 
